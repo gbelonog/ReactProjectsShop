@@ -1,8 +1,14 @@
 import React from 'react';
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 export function OrederPageStepThird() {
   return(
-    <Box>OrederPageStepThird</Box>
+      <>
+        <Box>OrederPageStepThird</Box>
+        <Box>Ваш заĸаз тут id созданного заĸаза оформлен. Наш менеджер с вами свяжется в ближайшее время.</Box>
+        <Button href="/catalog">Каталог товаров</Button>      
+
+      </>
+
   );
 }

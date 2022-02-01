@@ -2,6 +2,7 @@ import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, Box, Button, TextField, Link, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { theme } from '../theme'
+import { Header } from '../components/Header';
 
 export function CatalogPage() {
   return (
@@ -11,17 +12,17 @@ export function CatalogPage() {
       <Box 
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gridTemplateRows: 'auto',
           gridTemplateAreas: 
             `"header header header header" 
             "filter filter filter filter"
-            "main main main main"
-            "footer footer footer footer"`,
+            "main main main main"`,
         }} 
       >
         {/* header */}
-        <Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Книжный Дом</Box>
+        <Box sx={{ gridArea: 'header' }}>
+            <Header />
+            <Link sx={{m: 3}} href="/">Главная</Link>
+        </Box>
         
         {/* filter */}
         <Box sx={{ gridArea: 'filter', bgcolor: 'primary.dark' }}>Фильтр
@@ -105,11 +106,6 @@ export function CatalogPage() {
           </Box>
         </Box>
         
-        {/* footer */}
-        <Box sx={{ gridArea: 'footer', bgcolor: 'white', m: 3 }}>
-          <Link sx={{m: 3}} href="#">О нас</Link>
-          <Link sx={{m: 3}} href="#">Контакты</Link>      
-        </Box>
       </Box>  
              
     </ThemeProvider>

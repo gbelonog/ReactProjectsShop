@@ -1,8 +1,12 @@
 import React from 'react';
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 export function OrederPageStepSecond() {
   return(
-    <Box>OrederPageStepSecond</Box>
-  );
+      <>
+        <Box>OrederPageStepSecond</Box>
+        <Button href="/order/3">Продолжить</Button>
+      </>
+
+    );
 }

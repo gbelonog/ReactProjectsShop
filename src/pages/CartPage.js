@@ -1,10 +1,11 @@
 import React from 'react';
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 export function CartPage(){
     return(
-        <Box>CartPage</Box>
+        <>
+            <Box>CartPage</Box>
+            <Button href="/order/1">Оформить заказ</Button>
+        </>
     )
-    
-
 }
