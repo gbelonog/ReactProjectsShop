@@ -1,14 +1,21 @@
 import React from 'react';
-import { Box, Link } from "@mui/material";
+import { Box, ListItem, Button} from "@mui/material";
+import { Link } from 'react-router-dom';
 
 export function Header() {
+    const CustomLinkToHomePage = (props) => <Link to={'/'} {...props} />;
+    const CustomLinkToAbout = (props) => <Link to={'/about'} {...props} />;
+    const CustomLinkToDelivery = (props) => <Link to={'/delivery'} {...props} />;
+    const CustomLinkToCart = (props) => <Link to={'/cart'} {...props} />;
+    const CustomLinkToCatalog = (props) => <Link to={'/catalog'} {...props} />;
   return(
       <>
         <Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Книжный Дом</Box>
-        <Link sx={{m: 3}} href="/about">О нас</Link>
-        <Link sx={{m: 3}} href="/delivery">Доставка и оплата</Link>
-        <Link sx={{m: 3}} href="/catalog">Каталог</Link> 
-        <Link sx={{m: 3}} href="/cart">Корзина</Link>
+        <Button component={CustomLinkToHomePage}>HomePage</Button>
+        <Button component={CustomLinkToAbout}>About</Button>
+        <Button component={CustomLinkToDelivery}>Delivery</Button>
+        <Button component={CustomLinkToCart}>Cart</Button>
+        <Button component={CustomLinkToCatalog}>Catalog</Button>
       </>
        
   );
