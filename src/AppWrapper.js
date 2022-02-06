@@ -4,6 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
 import { theme } from './theme';
 import { CssBaseline } from '@mui/material';
+import { Provider } from "react-redux";
+import '@fontsource/roboto/300.css';
 
 export function AppWrapper() {
   return (
