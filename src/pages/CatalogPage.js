@@ -1,145 +1,87 @@
-import React from 'react';
-import { TextField, Box, Button, Slider, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Box, Button } from "@mui/material";
 import { Header } from '../components/Header';
+import { ProductCard } from '../components/ProductCard';
+//import news from '../data.json';
+import { Link } from 'react-router-dom';
+import { Filter } from '../components/Filter';
 
 export function CatalogPage() {
-    const priceMarks = [
-        {
-          value: 0,
-          label: '0грн',
-        },
-        {
-          value: 100,
-          label: '1000грн',
-        },
-      ];
-      const ratingMarks = [
-        {
-          value: 0,
-          label: '0',
-        },
-        {
-          value: 100,
-          label: '10',
-        },
-      ];
+    const [status, setStatus] = useState('initial');
+    const [error, setError] = useState(null);
+    const [listOfProducts, setListOfProducts] = useState([]);
+
+    useEffect(() => {
+        let mountState = {
+          isMount: true,
+        };
+      
+        fetch('https://61f5558a62f1e300173c40f3.mockapi.io/products')
+          .then((res) => {
+            console.log('---> Products: res', res);
+            return res.json();
+          })
+          .then((data) => {
+            if (mountState.isMount) {
+              console.log('---> Products: data', data);
+              setError(null); 
+              setStatus('success');
+              setListOfProducts(data); 
+           }
+          })      
+          .catch((error) => {
+            if (mountState.isMount) {
+              console.log('---> Products: error', error);
+              setError(error.message);
+              setStatus('error');
+            }
+          })
+        return () => {
+          mountState.isMount = false;
+        }
+                
+    
+        },[]);
+
   return (
     <Box 
         sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 0,
-            gridTemplateAreas: `"header header header header"
-        "filter . main main"
-        "footer footer footer footer"`,
+   
+        //     display: 'grid',
+        //     gridTemplateColumns: 'repeat(4, 1fr)',
+        //     gap: 0,
+        //     gridTemplateAreas: `"header header header header"
+        // "filter . main main"
+        // "footer footer footer footer"`,
         }} 
     >
-    {/* header */}
-        <Box sx={{ gridArea: 'header' }}>
-            <Header />
-        </Box>
-            
-        {/* filter */}
-        <Box sx={{ gridArea: 'filter', bgcolor: 'primary.dark', gridColumn: '1 / 3'}}>Фильтр
-            <FormGroup>
-                <Box sx={{ display: 'block', flexDirection: 'row', ml: 3 }}> 
-                    <FormControlLabel control={<Checkbox />} label="Вильгельм Гауф" />
-                    <FormControlLabel control={<Checkbox />} label="Андерсен Г.К." />
-                    <FormControlLabel control={<Checkbox />} label="Меламед Г.М." />
-                    <FormControlLabel control={<Checkbox defaultChecked/>} label="All" />
+        {/* <Box sx={{ gridArea: 'header' }}> */}
+        <Header />
+        {/* </Box> */}
+        <Box sx={{display: 'flex'}}>
+            <Filter/>
+        
+            {/* main */}
+            <Box sx={{ gridArea: 'main', bgcolor: 'white', display: 'flex'}}>
+                <Box sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: 0,
+                    bgcolor: 'white',           
+                    }}
+                >
+                { listOfProducts.map((e, i ) => 
+                    <Button component={Link} to={`/product/${e.id}` }>
+                        <ProductCard 
+                            id = {e.id}
+                            name={e.title}
+                            photo={e.photo + e.id} 
+                            description={e.description} 
+                            price={e.price}/>
+                    </Button>)}
                 </Box>
-            </FormGroup>
-            <Box m={3} className="" display="flex" sx={{justifyContent: 'left'}}>
-                <TextField label="text" name="Введите текст для поиска" />
-                <Button variant="contained" type="submit">Поиск</Button>
-                
-            </Box>
-            <Box sx={{ m: 7 }}>
-                <Slider
-                    // aria-label="Custom marks"
-                    defaultValue={20}
-                    // getAriaValueText={valuetext}
-                    step={1}
-                    valueLabelDisplay="auto"
-                    marks={priceMarks}
-                /> 
-            </Box>
-            <Box sx={{ m: 7 }}>
-                <Slider
-                    // aria-label="Custom marks"
-                    defaultValue={20}
-                    // getAriaValueText={valuetext}
-                    step={1}
-                    valueLabelDisplay="auto"
-                    marks={ratingMarks}
-                /> 
-            </Box>
-              
-        </Box>
-      
-        {/* main */}
-        <Box sx={{ gridArea: 'main', bgcolor: 'white' }}>
-            <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 0,
-                bgcolor: 'white',           
-                }}
-            >
-            <Box sx={{bgcolor: 'primary.light', m: 3}}>
-                <Box sx={{m: 3, fontWeight: 'bold', fontSize: 20 }}>Карлик нос</Box>
-                <Box sx={{mx: "auto", width: 200}}>
-                <img
-                    src={'https://www.ranok.com.ua/storage/cache/data/products/27333/s915006r-400-552.jpg'}
-                    alt={''}
-                    loading="lazy"
-                    width={200}
-                />
-                </Box>
-                <Box sx={{m: 3, fontStyle: 'italic'}}>Вильгельм Гауф</Box>
-            </Box>
-
-            <Box sx={{bgcolor: 'primary.light', m: 3}}>
-                <Box sx={{m: 3, fontWeight: 'bold', fontSize: 20 }}>Истории Медового Дола. Большое путешествие</Box>
-                <Box sx={{mx: "auto", width: 200}}>
-                <img
-                    src={'https://www.ranok.com.ua/storage/cache/data/products/30410/a997002r-400-552.jpg'}
-                    alt={''}
-                    loading="lazy"
-                    width={200}
-                />
-                </Box>
-                <Box sx={{m: 3, fontStyle: 'italic'}}>Меламед Г.М.</Box>
-            </Box>
-
-            <Box sx={{bgcolor: 'primary.light', m: 3}}>
-                <Box sx={{m: 3, fontWeight: 'bold', fontSize: 20 }}>Веселая математика</Box>
-                <Box sx={{mx: "auto", width: 200}}>
-                <img
-                    src={'https://www.ranok.com.ua/storage/cache/data/products/25822/a859015r_veselayamatematika_oblozhka_smoll-400-552.jpg'}
-                    alt={''}
-                    loading="lazy"
-                    width={200}
-                />
-                </Box>
-                <Box sx={{m: 3, fontStyle: 'italic'}}></Box>
-            </Box>
-
-            <Box sx={{bgcolor: 'primary.light', m: 3}}>
-                <Box sx={{m: 3, fontWeight: 'bold', fontSize: 20 }}>Любимые сказки</Box>
-                <Box sx={{mx: "auto", width: 200}}>
-                    <img
-                        src={'https://www.ranok.com.ua/storage/cache/data/products/26312/s1223016r-400-552.jpg'}
-                        alt={''}
-                        loading="lazy"
-                        width={200}
-                    />
-                </Box>
-                <Box sx={{m: 3, fontStyle: 'italic'}}>Андерсен Г.К.</Box>
             </Box>
         </Box>
-        </Box>
-         {/* footer */}
         
         <Box sx={{ gridArea: 'footer' }}>
             footer
